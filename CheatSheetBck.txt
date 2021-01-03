@@ -1,0 +1,347 @@
+Ref Link:
+https://developers.google.com/machine-learning/crash-course/prereqs-and-prework #prerequisites
+https://github.com/LeCoupa/awesome-cheatsheets/blob/master/languages/bash.sh [CHECK for bash commands]
+https://tiswww.case.edu/php/chet/bash/bashref.html
+https://www.learnshell.org/
+
+
+=======
+
+Copy A Text File
+	cat mytext.txt > newfile.txt
+catenate several files into your destination file
+	cat mytext.txt mytext2.txt > newfile.txt
+Instead of overwriting another file, you can also append a source text file to another using the redirection operator ">>".
+	cat mytext.txt >> another-text-file.txt
+
+
+Listing all files in directory to a file:ls > ../ Files.txt
+
+To append the prefix to the lines in "Files.txt" file: awk '$0="aravind/"$0' Files.txt > new.txt
+
+**To change cap to small
+for i in `ls DR*/*/*.PHN`;do a=`echo $i`;tr "[:upper:]" "[:lower:]" <$a> b;mv b $i;done
+
+** finding unique phones
+less lexicon.txt |cut -d" " -f2- -|cut -f2 -d'/' |xargs -n1 >tmp
+
+**SED
+http://www.folkstalk.com/2012/01/sed-command-in-unix-examples.html
+http://www.theunixschool.com/p/awk-sed.html
+
+find . -name '*.txt'
+
+rename 's/S2Nu/S1Nu/' * -->rename all files in folder
+
+
+for i in $(ls *.txt);do;done;
+
+sed -i '/_d/d' Label0031.txt --> Delete '*_d' lines in Label0031.txt file
+
+for i in `ls SpeechTask/*/*/*/label/*.txt`;do a=`echo $i`;sed -i '/_d/d' $a;done-->same as above in all files in all folders
+
+Memory check:
+# du -skh * <==Memory ocuupied for each Folder
+# df -h <==General check
+
+Python tab issues [vi file]
+:retab
+:115,125s/^/\t/      <==Block Indentation while copying
+
+====Search======
+/string 	search forward for occurrence of string in text
+  ?string 	search backward for occurrence of string in text
+  n 	move to next occurrence of search string
+  N 	move to next occurrence of search string in opposite direction
+===Replace==
+Single line:
+:s/<search_string>/<replace_string>/g 
+All lines:
+:%s/<search_string>/<replace_string>/g 
+===Convert Wav to Mp3===
+https://stackoverflow.com/questions/3255674/convert-audio-files-to-mp3-using-ffmpeg
+for i in *.wav; do ffmpeg -i "$i" -f mp3 "${i%.*}.mp3";done
+
+
+====sampling rate conversion=====
+ for i in  `ls *.wav`;do echo 'M_'$i; sox $i -r16000 -c1 -b16 'M_'$i; done;
+====
+find $PWD -type f -name "*.wav" >WavList
+  
+====
+delete all excluding a few in a folder (ls also works)
+rm -i !("checkpoint_975"|"logdir")
+rm -f !("checkpoint_975"|"logdir") # Force without need to give permissions
+
+===
+
+=========================================================
+Bash Scipting
+
+8.file permissions
+- r/w/exe(4 2 1)
+file by creation can have atmost 6
+UMASK—0022-->sub 666 for file and 777 for directory
+
+ownoffile/own/other
+
+CHMOD--> to change permissions
+
+owner-, Group, Others
+umask-
+
+
+
+9. LS
+
+ls-l -->long listingalso want file permission
+
+total 48 --> 48 block, block-->unit of memory
+1st col d--> directory, - -->normal
+next three col-->permissions
+
+To hide a file save by .name
+to view Cntr+h   or ls -a
+
+10. To change permission
+
+CHMOD 
+	All three permissions 777 (Fow, Gow,otherUSER)
+	444 -->Read
+UNAME -A
+	All info about s/m
+
+11. Count words lines& characters using WC
+		command FILE *  *Asteric --> represents all files in the directory  (Alternative to ls)
+
+	WC --> wc name.file -w words,-l lines, -c characters
+		4 30  --> lines words characters
+
+12. SORT FILE--> to sort text
+
+Arranges text in alphabetical order
+
+13. CUT --> filtering text
+
+	defalut delimmiter tab char as seperaters
+	we can also define , or – as delimmiter
+	usage -d “-” -f 1,3 --> (- d)delimter ,(“-”)delim identifier , (-f)extract fileds, (1,3) field index
+
+14. convert and copy by DD
+
+dd if=file1 of=outfile2 conv=ucase
+
+format drivers, iso and installations etc..
+
+character encoding  
+
+15.  HELP
+
+MAN --> Manual
+BANNER-->
+COMPRESS -v -->compression
+ZCAT --> to view compressed files
+UNCOMPRESS
+
+
+%% Shell Programming
+file.sh
+16. Hellow world 
+
+ECHO “hi”--> Printing text 
+ECHO $var--> variable value
+#--> comment
+sh file.sh -->to Run script
+
+17. Use Terminal commands in your scripts
+
+18. Use shell variables grab user i/p
+READ varname
+$varname -->calling the variable
+
+19.&20 Positional Parameters
+
+	S/m variables
+file ip1 ip2
+ip1 --> $1
+ip2-->$2
+
+OR
+passing arg to script
+SET file1 file2 fie3...., to view echo $1-->file1
+21. Reverse Quotes or accent graves
+
+SET 'cat file'--> to give i/p to sciprt file from a file which gives $ values to the content in file.
+Echo $* --> to display $ values
+
+22. count the no of command line arguments using $#
+
+echo $#--> No.Of current $'s
+
+23. math on integers using expr
+
+echo 'expr $a+$b
+
+24.
+operator Precidence
++ , - ,\*, / ,%
+
+/ , *,%
++, -
+
+25 Math on Real numbers
+| -->pipe symbol
+
+| bc 
+
+26. Escape sequence
+
+begins with \ follwed by one or two commands
+
+\n --> new line
+\r --> similar ignore before text(not exactly)
+\t --> sapce 6 char
+\b --> backspace one char
+\033[1m --> bold print  \033[0m
+        [7m--> flip backgroud
+
+27. TPUT
+
+clear ,# col rows,bold
+
+tput clear --> clears dollar also
+echo”no of rows =\c” --> \c escape seq
+tput lines -->no of rows on screen
+tput col--> no of coloums
+tput cup 15 20 --> position the curser at 15 20
+tput bold --> to print bold
+
+
+28.  if then statement -->to make statement
+
+exit status: $? --> 0 succes, 1--> fail, 2-->illegal
+
+IF cond
+THEN 
+command
+FI-->end
+
+29. if else
+
+30. checks on numbers
+[ $var -lt 10]  --> var less than 10
+
+-gt --> greater than
+
+elif--> else if
+
+31.  Run check files
+
+files--> file checks in shell scripts
+directories --> files
+shellscipts--> charspecialfile
+file.dbf-->blockspecial file
+
+-f  test --> to check wheter test file exisit or not
+-d       --> directory
+
+-c --> char special
+-b --> block special (images /videos) 
+
+32. Append the text through script
+
+Cntrl+D --> to exit
+cat >> $file --> to append text
+
+33. strings
+str1 =”hey you” --> string variable
+
+[“$var1” = “$ var2”]--> to check two strings are equal with exsit status $?
+              !=   		--> not equal
+[-n “var1”]--> check length >0 null string
+
+-z --> length of the string is zero
+
+34. The And logical operator
+
+-a -->And  
+
+[  $varNo -le 100 -a $varNo -ge 50 ]
+35. Count no of char's
+
+var wc -c --> to count no char in var
+if [ `echo $var | wc -c`-eq 2] --> echo $var | -->pass o/p of echo as i/p to WC – C
+`--> asscent symbol next to 1.  to teat as single command within it
+36.OR logical
+
+-o --> or operator
+
+if [ $var1 = a -o $var1=b] --> if a OR b
+
+37. Case
+case $var in
+[a-z]) --> cond1
+	echo --> state
+	;;
+[A-Z]--> cond2
+	echo
+	;;
+
+39. while
+
+count=1
+while [  $count -le 10 ]
+do
+	echo  $count
+	count = `expr $count +1`
+done
+
+
+41. For
+
+for item in * --> item is control var, * --> evrery thing in current folder
+do
+	if [ -d $item ]
+	then 
+		echo $ item
+	fi
+done
+
+42. 
+
+43. GREP--> find
+
+grep var file
+
+grep var -i file--> case insenitive
+-n --> line number
+-c --> count
+-v --> reverse the match i.e donot have the var
+
+44.
+
+45. Internal Field Seperator
+
+to modify the behaviour of set command
+IFS=: --> seperator is : symbol
+46. password file
+: --> char for seperator
+line= `grep $logname /etc/passwd
+IFS=:
+set $line
+
+47. Reading from a file
+
+`tty`--> command to 
+exec < $fname
+
+54.
+grep -i var file1 > file2   && echo “done”
+
+
+55. vi diff--> to find differences b/w two files
+
+
+awk {}--> for math operation
+
+==================================
